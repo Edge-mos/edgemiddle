@@ -15,23 +15,19 @@ public enum MemoryStore implements Store {
     private Map<Integer, User> cache = new ConcurrentHashMap<>();
     private AtomicInteger sysId = new AtomicInteger(0);
 
-
     @Override
     public boolean add(User user) {
-        this.cache.put(this.sysId.incrementAndGet(), user);
-        return true;
+        return this.cache.put(this.sysId.incrementAndGet(), user) == null;
     }
 
     @Override
     public boolean update(int id, User upd) {
-        this.cache.replace(id, upd);
-        return true;
+        return this.cache.replace(id, upd) != null;
     }
 
     @Override
     public boolean delete(int id) {
-        this.cache.remove(id);
-        return true;
+       return this.cache.remove(id) != null;
     }
 
     @Override

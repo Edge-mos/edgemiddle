@@ -8,7 +8,7 @@ public class User {
     private String email;
     private String createDate;
 
-    public User(String name, String login, String email, String createDate) {
+    public User(final String name, final String login, final String email, final String createDate) {
         this.name = name;
         this.login = login;
         this.email = email;
@@ -36,28 +36,20 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(createDate, user.createDate);
+        return login.equals(user.login) &&
+                email.equals(user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, login, email, createDate);
+        return Objects.hash(login, email);
     }
 
     @Override
     public String toString() {
-        return "{ "
-                .concat(" name= ")
-                .concat(this.name)
-                .concat(" login= ")
-                .concat(this.login)
-                .concat(" email= ")
-                .concat(this.email)
-                .concat(" create date= ")
-                .concat(this.createDate)
-                .concat(" }");
+        return String.format(
+                "Name:%s, Login:%s, Email:%s, CreateDate:%s",
+                this.name, this.login, this.email, this.createDate
+        );
     }
 }

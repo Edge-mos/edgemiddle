@@ -5,6 +5,8 @@ import ru.job4j.crud.persistent.MemoryStore;
 import ru.job4j.crud.persistent.Store;
 
 import java.util.Map;
+import java.util.function.Function;
+
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
  * @version $1.0$. Singleton of ValidateService.
@@ -16,45 +18,34 @@ public enum ValidateService implements Validate {
 
     @Override
     public boolean add(User user) {
-        if (!this.store.findAll().containsValue(user)) {
-            return this.store.add(user);
-        }
-        return false;
+        return this.condition(this.store, str -> !str.findAll().containsValue(user) && str.add(user));
     }
 
     @Override
     public boolean update(int id, User updUser) {
-        if (this.check(id)) {
-            return this.store.update(id, updUser);
-        }
-        return false;
+        return this.condition(this.store, str ->
+                str.findById(id) != null &&
+                !str.findAll().containsValue(updUser) &&
+                str.update(id, updUser));
     }
 
     @Override
     public boolean delete(int id) {
-        if (this.check(id)) {
-            return this.store.delete(id);
-        }
-        return false;
+        return this.condition(this.store, str -> str.findAll().containsKey(id) && str.delete(id));
     }
 
     @Override
     public Map<Integer, User> findAll() {
-        if (!this.store.findAll().isEmpty()) {
-            return this.store.findAll();
-        }
-        return null;
+        return this.store.findAll();
     }
 
     @Override
     public User findById(int id) {
-        if (this.check(id)) {
-            return this.store.findById(id);
-        }
-        return null;
+        return this.condition(this.store, str -> str.findAll().containsKey(id)) ? this.store.findById(id) : null;
     }
 
-    private boolean check(int id) {
-        return this.store.findAll().containsKey(id);
+    private boolean condition(Store str, Function<Store, Boolean> function) {
+        return function.apply(str);
     }
+
 }
