@@ -2,6 +2,8 @@ package ru.job4j.crud.presentation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.crud.logic.Actions;
+import ru.job4j.crud.logic.Dispatcher;
 import ru.job4j.crud.logic.Validate;
 import ru.job4j.crud.logic.ValidateService;
 import ru.job4j.crud.model.User;
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.function.BiConsumer;
+
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
  * @version $1.0$. UserServlet.
@@ -22,6 +24,7 @@ import java.util.function.BiConsumer;
 public class UserServlet extends HttpServlet {
     private Validate store = ValidateService.INSTANCE;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html; charset=utf-8");
@@ -31,23 +34,10 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html; charset=utf-8");
-        String action = req.getParameter("action");
-        switch (action) {
-            case "add":
-                this.store.add(new User(req.getParameter("name"), req.getParameter("login"),
-                        req.getParameter("email"), req.getParameter("create")));
-                this.doGet(req, resp);
-                break;
-            case "delete":
-                this.store.delete(Integer.valueOf(req.getParameter("id")));
-                this.doGet(req, resp);
-                break;
-            case "update":
-                this.store.update(Integer.valueOf(req.getParameter("id")), new User(req.getParameter("name"),
-                        req.getParameter("login"), req.getParameter("email"), req.getParameter("create")));
-                this.doGet(req, resp);
-                break;
-        }
+        Actions action = Actions.valueOf(req.getParameter("action").toUpperCase());
+        Dispatcher dispatcher = new Dispatcher(req);
+        dispatcher.getAction(action).accept(this.store);
+        this.doGet(req, resp);
     }
 
     /**
@@ -63,7 +53,7 @@ public class UserServlet extends HttpServlet {
                 writer.append("User id= ").append(String.valueOf(integer)).append("\n");
                 writer.append("Name= ").append(user.getName()).append("\n");
                 writer.append("Login= ").append(user.getLogin()).append("\n");
-                writer.append("Email= ").append(user.getLogin()).append("\n");
+                writer.append("Email= ").append(user.getEmail()).append("\n");
                 writer.append("Create Date= ").append(user.getCreateDate()).append("\n");
                 writer.append("\n");
             });
