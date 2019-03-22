@@ -4,48 +4,46 @@ import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
 import ru.job4j.crud.persistent.Store;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
  * @version $1.0$. Singleton of ValidateService.
  * @since 13.02.2019.
  */
-public enum ValidateService implements Validate {
+public enum ValidateService {
     INSTANCE;
     private Store store = MemoryStore.INSTANCE;
 
-    @Override
-    public boolean add(User user) {
-        return this.condition(this.store, str -> !str.findAll().containsValue(user) && str.add(user));
+    private final Map<String, Function<List<String>, String>> dispatcher = Map.of(
+            "add", this.addOperation(),
+            "delete", this.deleteOperation(),
+            "update", this.updateOperation()
+    );
+
+    private Function<List<String>, String> addOperation() {
+        return strings -> this.store.add(new User(strings.get(1), strings.get(2), strings.get(3), strings.get(4))) ?
+                ValidateMsg.USER_ADD : ValidateMsg.UNABLE_ADD;
     }
 
-    @Override
-    public boolean update(int id, User updUser) {
-        return this.condition(this.store, str ->
-                str.findById(id) != null &&
-                !str.findAll().containsValue(updUser) &&
-                str.update(id, updUser));
+    private Function<List<String>, String> deleteOperation() {
+        return strings -> this.store.delete(Integer.parseInt(strings.get(1))) ?
+                ValidateMsg.USER_DEL : ValidateMsg.UNABLE_DEL;
     }
 
-    @Override
-    public boolean delete(int id) {
-        return this.condition(this.store, str -> str.findAll().containsKey(id) && str.delete(id));
+    private Function<List<String>, String> updateOperation() {
+        return strings -> this.store.update(Integer.parseInt(strings.get(1)),
+                new User(strings.get(2), strings.get(3), strings.get(4), strings.get(5))) ?
+                ValidateMsg.USER_UPD : ValidateMsg.UNABLE_UPD;
     }
 
-    @Override
-    public Map<Integer, User> findAll() {
-        return this.store.findAll();
+    public Function<List<String>, String> getOperation(String key) {
+      return this.dispatcher.getOrDefault(key, strings -> {
+          throw new UnsupportedOperationException(String.format("Key %s not found", key));
+      });
     }
-
-    @Override
-    public User findById(int id) {
-        return this.condition(this.store, str -> str.findAll().containsKey(id)) ? this.store.findById(id) : null;
-    }
-
-    private boolean condition(Store str, Function<Store, Boolean> function) {
-        return function.apply(str);
-    }
-
 }

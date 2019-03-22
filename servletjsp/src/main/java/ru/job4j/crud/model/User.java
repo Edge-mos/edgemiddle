@@ -36,8 +36,8 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return login.equals(user.login) &&
-                email.equals(user.email);
+        return Objects.equals(login, user.login) &&
+                Objects.equals(email, user.email);
     }
 
     @Override

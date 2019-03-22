@@ -16,17 +16,22 @@ public enum MemoryStore implements Store {
     private AtomicInteger sysId = new AtomicInteger(0);
 
     @Override
-    public boolean add(User user) {
-        return this.cache.put(this.sysId.incrementAndGet(), user) == null;
+    public boolean add(final User user) {
+        return !this.cache.containsValue(user) && this.cache.put(this.sysId.incrementAndGet(), user) == null;
     }
 
     @Override
-    public boolean update(int id, User upd) {
-        return this.cache.replace(id, upd) != null;
+    public boolean update(final int id, final User upd) {
+        return this.cache.computeIfPresent(id, (integer, user) -> {
+            if (upd.equals(user)) {
+                return upd;
+            }
+            return !cache.containsValue(upd) ? upd : null;
+        }) != null;
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(final int id) {
        return this.cache.remove(id) != null;
     }
 
