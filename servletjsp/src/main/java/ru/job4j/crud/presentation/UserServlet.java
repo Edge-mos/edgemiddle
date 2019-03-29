@@ -3,6 +3,7 @@ package ru.job4j.crud.presentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.crud.logic.ValidateService;
+import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
 import ru.job4j.crud.persistent.Store;
 
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -26,40 +30,29 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         resp.setContentType("text/html; charset=utf-8");
-        this.show(resp);
+        this.showResult("List of users:").accept(resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         resp.setContentType("text/html; charset=utf-8");
         List<String> collect = req.getParameterMap().values().stream().flatMap(Arrays::stream).collect(Collectors.toList());
         String result = validate.getOperation(collect.get(0)).apply(collect);
-        this.show(resp, result);
+        this.showResult(result).accept(resp);
     }
 
-    /**
-     * Shows Users in list.
-     * @param resp response param.
-     */
-    private void show(HttpServletResponse resp) {
-        try (PrintWriter writer = new PrintWriter(resp.getOutputStream())) {
-            writer.append("List of Users: \n");
-            this.store.findAll().forEach((integer, user) -> writer.append(String.format("id: %d User: %s", integer, user)));
-            writer.flush();
-        } catch (IOException e) {
-            LOGGER.error("Input/Output Error!", e);
-        }
-    }
-
-    private void show(HttpServletResponse resp, String result) {
-        try (PrintWriter writer = new PrintWriter(resp.getOutputStream())) {
-            writer.append("Operation result: \n");
-            writer.append(result);
-            writer.flush();
-        } catch (IOException e) {
-            LOGGER.error("Input/Output Error!", e);
-        }
+    private Consumer<HttpServletResponse> showResult(String msg) {
+        return httpServletResponse -> {
+            try(PrintWriter pw = new PrintWriter(httpServletResponse.getOutputStream())) {
+                pw.append(msg.concat("\n"));
+                this.store.findAll().forEach((integer, user) -> pw.append(String.format("id: %d User: %s", integer, user))
+                        .append("\n"));
+                pw.flush();
+            } catch (IOException e) {
+                LOGGER.error("Input/Output Error!", e);
+            }
+        };
     }
 }

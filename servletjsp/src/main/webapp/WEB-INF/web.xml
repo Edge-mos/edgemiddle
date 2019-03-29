@@ -14,7 +14,6 @@
         <servlet-class>ru.job4j.crud.presentation.UserServlet</servlet-class>
     </servlet>
 
-
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/echo</url-pattern>
@@ -24,4 +23,51 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/users</url-pattern>
     </servlet-mapping>
+
+
+
+
+    <!-- Сервлеты приложения appusers -->
+
+    <servlet>
+        <servlet-name>ListView</servlet-name>
+        <servlet-class>ru.job4j.appusers.presentation.ListViewServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ListView</servlet-name>
+        <url-pattern>/userslist</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserUpdate</servlet-name>
+        <servlet-class>ru.job4j.appusers.presentation.UserUpdateServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserUpdate</servlet-name>
+        <url-pattern>/userupdate</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserDelete</servlet-name>
+        <servlet-class>ru.job4j.appusers.presentation.UserDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserDelete</servlet-name>
+        <url-pattern>/userdelete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserAdd</servlet-name>
+        <servlet-class>ru.job4j.appusers.presentation.UserAddServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserAdd</servlet-name>
+        <url-pattern>/useradd</url-pattern>
+    </servlet-mapping>
+
 </web-app>

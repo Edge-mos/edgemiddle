@@ -1,8 +1,10 @@
 package ru.job4j.crud.persistent;
 
 import org.junit.Test;
+import ru.job4j.appusers.presentation.Html;
 import ru.job4j.crud.model.User;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -84,4 +86,9 @@ public class MemoryStoreTest {
 
     }
 
+    @Test
+    public void test() {
+        System.out.println(Arrays.toString(Html.resultMessage("ADD", true, new User("name", "login", "mail", "now"))));
+
+    }
 }
