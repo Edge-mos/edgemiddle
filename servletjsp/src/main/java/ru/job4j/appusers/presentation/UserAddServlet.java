@@ -1,5 +1,6 @@
 package ru.job4j.appusers.presentation;
 
+import ru.job4j.appusers.logic.ValidateService;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.Store;
 
@@ -15,15 +16,10 @@ import java.util.Map;
 public class UserAddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Store store = Html.getSessionStore(req);
-        Map<String, String[]> pm = req.getParameterMap();
-
-
-        System.out.println("Параметры DoPost сервлета UserAdd: ");
-        pm.forEach((s, strings) -> System.out.println(s + Arrays.toString(strings)));
-        User user = new User(pm.get("name")[0], pm.get("login")[0], pm.get("email")[0], pm.get("create")[0]);
-        store.add(user);
-        // TODO: 3/27/19 сделать невидимую форму с сообщением
+        ValidateService store = Html.getSessionStore(req);
+        Map<String, String[]> params = req.getParameterMap();
+        String[] operations = store.getOperation(params.get("operation")[0]).apply(params);
+        req.getSession().setAttribute("markupMessage", operations);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/userslist");
         dispatcher.forward(req, resp);
     }

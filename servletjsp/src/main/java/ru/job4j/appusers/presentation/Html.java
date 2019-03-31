@@ -1,5 +1,6 @@
 package ru.job4j.appusers.presentation;
 
+import ru.job4j.appusers.logic.ValidateService;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.Store;
 
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 public interface Html {
-    static String markup(String userMarkup, String contextPath) {
+    static String markup(String msgColor, String userMarkup, String contextPath, String msg) {
         return String.format("<!DOCTYPE html>\n" +
                 "<html lang=\"en\" xmlns:float=\"http://www.w3.org/1999/xhtml\">\n" +
                 "<head>\n" +
@@ -56,7 +57,7 @@ public interface Html {
                 "            border: solid 1px black;\n" +
                 "        }\n" +
                         ".resultArea {" +
-                            "color: blue;" +
+                            "color: %s;" +
                         "}" +
                 "    </style>\n" +
                 "</head>\n" +
@@ -103,11 +104,11 @@ public interface Html {
                 "        </form>\n" +
                 "    </div>\n" +
                 "<div>" +
-                    "<textarea class=\"resultArea\" cols=\"50\" rows=\"10\" readonly>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</textarea>" +
+                    "<textarea class=\"resultArea\" cols=\"50\" rows=\"10\" readonly>%s</textarea>" +
                 "</div>" +
                 "</div>\n" +
                 "</body>\n" +
-                "</html>", userMarkup, contextPath);
+                "</html>",msgColor, userMarkup, contextPath, msg);
 
     }
 
@@ -186,20 +187,20 @@ public interface Html {
                 "</html>", contextPath, updId, user.getName(), user.getLogin(), user.getEmail(), user.getCreateDate());
     }
 
-    static Store getSessionStore(HttpServletRequest req) {
+    static ValidateService getSessionStore(HttpServletRequest req) {
         HttpSession session = req.getSession();
-        return ((Store) session.getAttribute("store"));
+        return ((ValidateService) session.getAttribute("store"));
     }
 
     static String[] resultMessage(String op, Boolean res, User user) {
-        String userPrint = String.format("User with Login: %s and Email: %s ", user.getLogin(), user.getEmail());
+        String userPrint = String.format("User with Login:%s and Email:%s ", user.getLogin(), user.getEmail());
         Map<String, Map<Boolean, String[]>> dispMess =
                 Map.of("ADD",
                         Map.of(true, new String[]{userPrint.concat("added."), "green"}, false, new String[]{userPrint.concat("can not be added!"), "red"}),
                         "UPDATE",
                         Map.of(true, new String[]{userPrint.concat("updated."), "green"}, false, new String[]{userPrint.concat("can not be updated!"), "red"}),
                         "DELETE",
-                        Map.of(true, new String[]{userPrint.concat("deleted.")}, false, new String[]{userPrint.concat("is absent!."), "red"}));
+                        Map.of(true, new String[]{userPrint.concat("deleted."), "green"}, false, new String[]{userPrint.concat("is absent!."), "red"}));
         return dispMess.get(op).get(res);
     }
 }

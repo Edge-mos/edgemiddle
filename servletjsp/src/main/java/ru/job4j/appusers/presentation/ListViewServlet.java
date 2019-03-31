@@ -33,10 +33,15 @@ public class ListViewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Добавляем в сессию
         HttpSession session = req.getSession();
-        session.setAttribute("store", this.store);
-        this.show(resp, req.getContextPath());
+        session.setAttribute("store", this.service);
+        String[] messages = (String[]) session.getAttribute("markupMessage");
+        if (messages == null) {
+            messages = new String[]{"wtf!!!", "red"};
+            session.setAttribute("markupMessage", messages);
+        }
+
+        this.show(messages[1], resp, req.getContextPath(), messages[0]);
     }
 
     @Override
@@ -45,11 +50,12 @@ public class ListViewServlet extends HttpServlet {
         this.doGet(req, resp);
     }
 
-    private void show(HttpServletResponse resp, String contextPath) throws IOException {
+    private void show(String msgColor, HttpServletResponse resp, String contextPath, String msg) throws IOException {
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         StringBuilder sb = new StringBuilder();
-        this.store.findAll().forEach((integer, user) -> sb.append(Html.userMarkup(integer, user, contextPath)));
-        writer.append(Html.markup(sb.toString(), contextPath));
+
+        this.service.getAllUsers().forEach((integer, user) -> sb.append(Html.userMarkup(integer, user, contextPath)));
+        writer.append(Html.markup(msgColor, sb.toString(), contextPath, msg));
         writer.flush();
     }
 

@@ -1,5 +1,6 @@
 package ru.job4j.appusers.presentation;
 
+import ru.job4j.appusers.logic.ValidateService;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.Store;
 
@@ -17,28 +18,18 @@ import java.util.Map;
 public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Store store = Html.getSessionStore(req);
+        ValidateService store = Html.getSessionStore(req);
         String id = req.getParameter("id");
         User user = store.findById(Integer.parseInt(id));
         this.showUpdateForm(resp, user, id, req.getContextPath());
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Store store = Html.getSessionStore(req);;
-        Map<String, String[]> pm = req.getParameterMap();
-
-
-
-        System.out.println("Параметры DoPost сервлета UserUpdate: ");
-
-        pm.forEach((s, strings) -> System.out.println(s + Arrays.toString(strings)));
-
-        User user = new User(pm.get("name")[0], pm.get("login")[0], pm.get("email")[0], pm.get("create")[0]);
-        store.update(Integer.parseInt(pm.get("id")[0]), user);
-
-        // TODO: 3/27/19 сделать невидимую форму с сообщением
+        Map<String, String[]> params = req.getParameterMap();
+        ValidateService store = Html.getSessionStore(req);
+        String[] operations = store.getOperation(params.get("operation")[0]).apply(params);
+        req.getSession().setAttribute("markupMessage", operations);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/userslist");
         dispatcher.forward(req, resp);
     }
