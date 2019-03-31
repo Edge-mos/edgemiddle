@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:float="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        #cap {
+            text-align: left;
+        }
+        #outer {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <form method="GET" action="/userupdate">
+        <table cellpadding="7px">
+            <caption id="cap"><h2>Update user</h2></caption>
+            <tr>
+                <input type="text" hidden name="operation" value="UPDATE"/>
+                <input type="text" hidden name="id" value="11111111"/>
+
+                <td>Name:</td>
+                <td><input type="text" name="name" value="%s"></td>
+            </tr>
+            <tr>
+                <td>Login:</td>
+                <td><input type="text" name="login" value="%s"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email" value="%s"></td>
+            </tr>
+            <tr>
+                <td>Create date:</td>
+                <td><input type="text" name="create" value="%s"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Update"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
