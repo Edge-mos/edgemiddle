@@ -22,12 +22,18 @@ public enum MemoryStore implements Store {
 
     @Override
     public boolean update(final int id, final User upd) {
-        return this.cache.computeIfPresent(id, (integer, user) -> {
+        final boolean[] result = {true};
+        this.cache.computeIfPresent(id, (integer, user) -> {
             if (upd.equals(user)) {
                 return upd;
             }
-            return !cache.containsValue(upd) ? upd : null;
-        }) != null;
+            if (!cache.containsValue(upd)) {
+                return upd;
+            }
+            result[0] = false;
+            return user;
+        });
+        return result[0];
     }
 
     @Override

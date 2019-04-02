@@ -2,7 +2,7 @@ package ru.job4j.appusers.logic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.appusers.presentation.Html;
+import ru.job4j.appusers.presentation.Utils;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
 import ru.job4j.crud.persistent.Store;
@@ -30,8 +30,8 @@ public enum  ValidateService {
                     stringMap.get("create")[0]);
             String op = stringMap.get("operation")[0];
             return this.store.add(user) ?
-                    Html.resultMessage(op, true, user) :
-                    Html.resultMessage(op, false, user);
+                    Utils.resultMessage(op, true, user) :
+                    Utils.resultMessage(op, false, user);
         };
     }
 
@@ -45,8 +45,8 @@ public enum  ValidateService {
             String op = stringMap.get("operation")[0];
             String updateId = stringMap.get("id")[0];
             return this.store.update(Integer.parseInt(updateId), user) ?
-                    Html.resultMessage(op, true, user) :
-                    Html.resultMessage(op, false, user);
+                    Utils.resultMessage(op, true, user) :
+                    Utils.resultMessage(op, false, user);
         };
     }
 
@@ -56,8 +56,8 @@ public enum  ValidateService {
             User user = this.findById(Integer.parseInt(deleteId));
             String op = stringMap.get("operation")[0];
             return this.store.delete(Integer.parseInt(deleteId)) ?
-                    Html.resultMessage(op, true, user) :
-                    Html.resultMessage(op, false, user);
+                    Utils.resultMessage(op, true, user) :
+                    Utils.resultMessage(op, false, user);
         };
     }
 
