@@ -1,0 +1,129 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 70%;
+    padding: 15px;
+}
+
+.table_layer {
+    padding-left: 15px;
+    border-bottom: 1px solid #C0C0C0;
+    height: 450px;
+    overflow: auto;
+}
+
+.table_layer table {
+    width: 100%;
+}
+
+.table_layer table caption {
+    color: red;
+    font-weight: 800;
+}
+
+.table_layer table th {
+    font-weight: 400;
+
+}
+
+.table_layer table td {
+    border: 1px solid;
+    padding: 3px 5px;
+}
+
+.table_layer table tr:nth-child(even) {
+    background-color: #DBDADA;
+}
+
+.table_layer form {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.table_layer .td_form {
+    border: none;
+    background-color: white;
+}
+
+.list_count{
+    margin-top: 5px;
+    padding-left: 1px;
+}
+
+.delBtn, .updBtn {
+    width: 80px;
+}
+
+.form_btn:hover {
+    transition: 0.5s;
+    border: 2px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delBtn:hover {
+    color: red;
+    box-shadow: 1px 2px 20px;
+}
+
+.updBtn:hover {
+    color: blue;
+}
+
+.container_footer {
+    height: 350px;
+    margin-top: 5px;
+    padding-left: 15px;
+
+}
+
+.add_user, .message {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.add_user {
+    width: 50%;
+}
+
+.message {
+    width: 49%;
+}
+
+.add_user form .vis {
+    width: 300px;
+    display: block;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.add_user form .vis:focus {
+    outline: none;
+}
+
+.add_user form input:hover {
+    border-radius: 5px;
+    transition: 0.5s;
+    border: 2px solid green;
+    cursor: pointer;
+}
+
+.add_btn {
+    width: 80px;
+    margin-top: 10px;
+}
+
+.add_user form .add_btn:hover {
+    transition: 0.5s;
+    border-radius: 5px;
+    border: 2px solid blue;
+    color: blue;
+
+}
+
+
+
+
+

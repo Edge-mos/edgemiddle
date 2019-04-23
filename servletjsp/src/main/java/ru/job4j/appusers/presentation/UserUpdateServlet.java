@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Map;
 
 public class UserUpdateServlet extends HttpServlet {
@@ -27,7 +28,10 @@ public class UserUpdateServlet extends HttpServlet {
         ValidateService store = Utils.getSessionStore(req);
         String[] operations = store.getOperation(params.get("operation")[0]).apply(params);
         req.getSession().setAttribute("markupMessage", operations);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/userslist");
+
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/userslist");
+//        dispatcher.forward(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req, resp);
     }
 

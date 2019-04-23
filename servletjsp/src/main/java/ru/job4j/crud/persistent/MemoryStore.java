@@ -38,7 +38,7 @@ public enum MemoryStore implements Store {
 
     @Override
     public boolean delete(final int id) {
-       return this.cache.remove(id) != null;
+        return this.cache.remove(id) != null;
     }
 
     @Override

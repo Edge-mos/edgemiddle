@@ -77,4 +77,9 @@ public enum  ValidateService {
         return result.orElseGet(() -> new User("-", "-", "-", "-"));
     }
 
+    @Deprecated
+    public Map<Integer, User> tempGetStore() {
+        return this.store.findAll();
+    }
+
 }

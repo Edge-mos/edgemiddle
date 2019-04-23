@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSP HTML</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="table_layer">
+            <table>
+                <caption><h3>Users List</h3></caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Login</th>
+                    <th>Mail</th>
+                    <th>Create_date</th>
+                </tr>
+                <tr>
+                    <td>Ivan</td>
+                    <td>Jopa</td>
+                    <td>Jopa@gmail.com</td>
+                    <td>28/12/2018</td>
+                    <td class="td_form">
+                        <form class="form" action="#" method="POST">
+                            <input class="form_btn delBtn" type="submit" name="operation" value="DELETE"/>
+                            <input type="number" hidden name="id" value="%s"/>
+                        </form>
+                        <form class="form" action="#" method="GET">
+                            <input class="form_btn updBtn" type="submit" name="operation" value="UPDATE"/>
+                            <input type="number" hidden name="id" value="3333"/>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ivan</td>
+                    <td>Jopa</td>
+                    <td>Jopa@gmail.com</td>
+                    <td>28/12/2018</td>
+                    <td class="td_form">
+                        <form class="form" action="#" method="POST">
+                            <input class="form_btn delBtn" type="submit" name="operation" value="DELETE"/>
+                            <input type="number" hidden name="id" value="%s"/>
+                        </form>
+                        <form class="form" action="#" method="GET">
+                            <input class="form_btn updBtn" type="submit" name="operation" value="UPDATE"/>
+                            <input type="number" hidden name="id" value="3333"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <div>users in list: 2</div>
+        </div>
+
+        <!-- новые элементы -->
+        <div class="container_footer">
+            <div class="add_user">
+                <p>Add new user</p>
+                <form action="#">
+                    <input type="text" hidden name="operation" value="ADD"/>
+                    <input class="vis" type="text" name="name" placeholder="Name">
+                    <input class="vis" type="text" name="login" placeholder="Login">
+                    <input class="vis" type="text" name="email" placeholder="Email">
+                    <input class="vis" type="text" name="create" placeholder="Create_date">
+                    <input class="add_btn" type="submit" value="ADD">
+                </form>
+
+            </div>
+            <div class="message"></div>
+        </div>
+
+
+    </div>
+</body>
+</html>

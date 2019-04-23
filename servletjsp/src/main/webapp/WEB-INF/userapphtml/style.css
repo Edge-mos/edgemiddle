@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 70%;
+    border: 3px solid;
+    padding: 15px;
+}
+
+.table_layer {
+    height: 250px;
+    padding-left: 15px;
+}
+
+.table_layer table {
+    width: 100%;
+}
+
+.table_layer table caption {
+    color: red;
+    font-weight: 800;
+}
+
+.table_layer table th {
+    font-weight: 600;
+    color: blue;
+}
+
+.table_layer table td {
+    border: 1px solid;
+    padding: 3px 5px;
+}
+
+.table_layer table tr:nth-child(even) {
+    background-color: #DBDADA;
+}
+
+.table_layer form {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.table_layer .td_form {
+    border: none;
+    background-color: white;
+}
+
+.delBtn, .updBtn {
+    width: 80px;
+}
+
+.form_btn:hover{
+    transition: 0.5s;
+    border: 2px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delBtn:hover{
+    color: red;
+    box-shadow: 1px 2px 20px;
+}
+
+.updBtn:hover{
+    color: blue;
+}
+
+.container_footer {
+    height: 350px;
+    padding-top: 3px;
+    padding-left: 15px;
+
+}
+
+.add_user, .message {
+    vertical-align: top;
+    display: inline-block;
+    border: 1px solid purple;
+    height: 300px;
+}
+
+.add_user {
+    width: 50%;
+}
+
+.message {
+    width: 49%;
+}
+
+.add_user form .vis {
+    width: 250px;
+    display: block;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.add_user form input:hover {
+    border-radius: 5px;
+    transition: 0.5s;
+    border: 2px solid green;
+    cursor: pointer;
+}
+
+.add_btn {
+    width: 80px;
+    margin-top: 10px;
+}
+
+.add_user form .add_btn:hover {
+    transition: 0.5s;
+    border-radius: 5px;
+    border: 2px solid blue;
+    color: blue;
+}
+
+
+
