@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
- * @version $1.0$. Singleton of ValidateService.
+ * @version $1.0$. Singleton of ValidateServiceDb.
  * @since 13.02.2019.
  */
 public enum ValidateService {
