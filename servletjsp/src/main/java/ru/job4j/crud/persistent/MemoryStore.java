@@ -3,8 +3,11 @@ package ru.job4j.crud.persistent;
 import ru.job4j.crud.model.User;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
+
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
  * @version $1.0$. Singleton of MemoryStore.
@@ -17,7 +20,8 @@ public enum MemoryStore implements Store {
 
     @Override
     public boolean add(final User user) {
-        return !this.cache.containsValue(user) && this.cache.put(this.sysId.incrementAndGet(), user) == null;
+        return this.notInList().apply(this.cache, user) &&
+                this.cache.put(this.sysId.incrementAndGet(), user) == null;
     }
 
     @Override
@@ -27,7 +31,7 @@ public enum MemoryStore implements Store {
             if (upd.equals(user)) {
                 return upd;
             }
-            if (!cache.containsValue(upd)) {
+            if (this.notInList().apply(cache, upd)) {
                 return upd;
             }
             result[0] = false;
@@ -49,5 +53,16 @@ public enum MemoryStore implements Store {
     @Override
     public User findById(int id) {
         return this.cache.get(id);
+    }
+
+    private BiFunction<Map<Integer, User>, User, Boolean> notInList() {
+        return (map, user) -> {
+            Optional<User> search = map.values()
+                    .stream()
+                    .filter(presentUsr ->
+                            presentUsr.getLogin().equals(user.getLogin()) || presentUsr.getEmail().equals(user.getEmail()))
+                    .findFirst();
+            return search.isEmpty();
+        };
     }
 }

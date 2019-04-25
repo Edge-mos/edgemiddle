@@ -3,9 +3,9 @@
 <%@ page import="ru.job4j.crud.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ValidateService store = Utils.getSessionStore(request);
+    ValidateService vs = (ValidateService) session.getAttribute("validate");
     String id = request.getParameter("id");
-    User user = store.findById(Integer.parseInt(id));
+    User user = vs.findById(Integer.parseInt(id));
 %>
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container_upd">
-        <span>Update user</span>
+        <span class="caption">Update user</span>
         <form method="POST" action="<%=request.getContextPath()%>/userupdate">
             <input type="text" hidden name="operation" value="UPDATE"/>
             <input type="text" hidden name="id" value="<%=id%>"/>
@@ -25,7 +25,7 @@
             <input class="vis" type="text" name="create" value="<%=user.getCreateDate()%>">
             <input class="upd_btn" type="submit" value="Update">
         </form>
-        <div class="ref"><a href="<%=request.getContextPath()%>/index.jsp">back to users list</a></div>
+        <div class="ref"><a href="<%=request.getContextPath()%>/userslist">back to users list</a></div>
     </div>
 </body>
 </html>

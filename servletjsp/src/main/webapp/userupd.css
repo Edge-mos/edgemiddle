@@ -3,7 +3,7 @@
     padding-left: 20px;
 }
 
-.container_upd span {
+.container_upd span.caption {
     font-weight: 600;
 }
 
@@ -13,7 +13,6 @@
     padding: 5px;
     width: 300px;
 }
-
 .container_upd input.vis:focus {
     outline: none;
 }

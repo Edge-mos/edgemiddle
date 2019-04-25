@@ -20,9 +20,9 @@ public enum StoreDb implements Store {
         this.source.setUrl("jdbc:postgresql://localhost:5433/users_jsp");
         this.source.setUsername("edge");
         this.source.setPassword("Assault");
-        this.source.setMinIdle(10);
-        this.source.setMaxIdle(20);
-        this.source.setMaxOpenPreparedStatements(100);
+        this.source.setMinIdle(100);
+        this.source.setMaxIdle(200);
+        this.source.setMaxOpenPreparedStatements(300);
     }
 
     @Override

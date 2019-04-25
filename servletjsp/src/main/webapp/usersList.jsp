@@ -9,15 +9,10 @@
 <%@ page import="ru.job4j.appusers.logic.ValidateService" %>
 <%@ page import="ru.job4j.crud.model.User" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.io.IOException" %>
 <%
-    ValidateService validateService = ValidateService.INSTANCE;
-    //добавляем в сессию
-    session.setAttribute("store", validateService);
+    ValidateService vs = (ValidateService) session.getAttribute("validate");
     String[] messages = (String[]) session.getAttribute("markupMessage");
-    if (messages == null) {
-        messages = new String[]{"", ""};
-        session.setAttribute("markupMessage", messages);
-    }
 %>
 
 <!DOCTYPE html>
@@ -42,7 +37,7 @@
             </tr>
             <%
                 // Проходим список пользователей и добавляем в форму
-                for (Map.Entry<Integer, User> entry : validateService.getAllUsers().entrySet()) {
+                for (Map.Entry<Integer, User> entry : vs.getAllUsers().entrySet()) {
             %>
             <tr>
                 <td><%=entry.getKey()%></td>
@@ -66,7 +61,7 @@
             %>
         </table>
     </div>
-    <div class="list_count">users in list: <%= validateService.getAllUsers().size()%></div>
+    <div class="list_count">users in list: <%= vs.getAllUsers().size()%></div>
 
     <div class="container_footer">
         <div class="add_user">

@@ -11,35 +11,34 @@ import java.io.PrintWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.appusers.logic.ValidateService;
+import ru.job4j.crud.model.User;
 import ru.job4j.crud.presentation.UserServlet;
 
 public class ListViewServlet extends HttpServlet {
-    private final ValidateService service = ValidateService.INSTANCE;
+    // исходная метка
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=UTF-8");
         HttpSession session = req.getSession();
-        session.setAttribute("store", this.service);
+        ValidateService vs = (ValidateService) session.getAttribute("validate");
         String[] messages = (String[]) session.getAttribute("markupMessage");
+        if (vs == null) {
+            vs = ValidateService.INSTANCE;
+            session.setAttribute("validate", vs);
+        }
         if (messages == null) {
             messages = new String[]{"", ""};
             session.setAttribute("markupMessage", messages);
         }
-        this.show(messages[1], resp, req.getContextPath(), messages[0]);
+        req.getRequestDispatcher("/usersList.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
-    }
-
-    private void show(String msgColor, HttpServletResponse resp, String contextPath, String msg) throws IOException {
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        StringBuilder sb = new StringBuilder();
-        this.service.getAllUsers().forEach((integer, user) -> sb.append(Utils.userMarkup(integer, user, contextPath)));
-        writer.append(Utils.markup(msgColor, sb.toString(), contextPath, msg));
-        writer.flush();
     }
 
 }
