@@ -6,6 +6,7 @@ import ru.job4j.appusers.logic.ValidateService;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.Store;
 import ru.job4j.crud.presentation.UserServlet;
+import ru.job4j.jspdb.logic.ValidateServiceDb;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -213,8 +214,8 @@ public interface Utils {
             req.setCharacterEncoding("UTF-8");
             resp.setContentType("text/html;charset=UTF-8");
             HttpSession session = req.getSession();
-            ValidateService vs = (ValidateService) session.getAttribute("validate");
-
+//            ValidateService vs = (ValidateService) session.getAttribute("validate"); без базы данных
+            ValidateServiceDb vs = (ValidateServiceDb) session.getAttribute("validate");
             Map<String, String[]> params = req.getParameterMap();
             String[] operations = vs.getOperation(params.get("operation")[0]).apply(params);
             req.getSession().setAttribute("markupMessage", operations);

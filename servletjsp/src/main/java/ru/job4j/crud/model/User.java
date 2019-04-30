@@ -1,12 +1,20 @@
 package ru.job4j.crud.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User {
-    private String name;
-    private String login;
-    private String email;
-    private String createDate;
+    private final String name;
+    private final String login;
+    private final String email;
+    private final String createDate;
+
+    public User(String name, String login, String email) {
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = null;
+    }
 
     public User(final String name, final String login, final String email, final String createDate) {
         this.name = name;
@@ -36,13 +44,14 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(login, user.login) &&
+        return Objects.equals(name, user.name) &&
+                Objects.equals(login, user.login) &&
                 Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, email);
+        return Objects.hash(name, login, email);
     }
 
     @Override

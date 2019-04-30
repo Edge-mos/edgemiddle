@@ -10,17 +10,14 @@
     <form method="POST" action="<%=request.getContextPath()%>/userupdate">
         <input type="text" hidden name="operation" value="UPDATE"/>
         <input type="text" hidden name="id" value="<%=id%>"/>
-        <div class="lab">
-            <div class="in">Name:</div><input class="vis" type="text" name="name" value="<%=user.getName()%>">
+        <div>
+            Name:<input class="vis" type="text" name="name" value="<%=user.getName()%>">
         </div>
-        <div class="lab">
+        <div>
             Login:<input class="vis" type="text" name="login" value="<%=user.getLogin()%>">
         </div>
-        <div class="lab">
+        <div>
             Email:<input class="vis" type="text" name="email" value="<%=user.getEmail()%>">
-        </div>
-        <div class="lab">
-            Create:<input class="vis" type="text" name="create" value="<%=user.getCreateDate()%>">
         </div>
         <input class="upd_btn" type="submit" value="Update">
     </form>

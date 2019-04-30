@@ -28,8 +28,8 @@ public enum ValidateServiceDb {
             User user = new User(
                     stringMap.get("name")[0],
                     stringMap.get("login")[0],
-                    stringMap.get("email")[0],
-                    stringMap.get("create")[0]);
+                    stringMap.get("email")[0]
+            );
             String op = stringMap.get("operation")[0];
             return this.store.add(user) ?
                     Utils.resultMessage(op, true, user) :
@@ -42,8 +42,8 @@ public enum ValidateServiceDb {
             User user = new User(
                     stringMap.get("name")[0],
                     stringMap.get("login")[0],
-                    stringMap.get("email")[0],
-                    stringMap.get("create")[0]);
+                    stringMap.get("email")[0]
+            );
             String op = stringMap.get("operation")[0];
             String updateId = stringMap.get("id")[0];
             return this.store.update(Integer.parseInt(updateId), user) ?

@@ -1,6 +1,6 @@
-
 .container_upd {
     padding-left: 20px;
+    width: 600px;
 }
 
 .container_upd span.caption {
@@ -8,11 +8,13 @@
 }
 
 .container_upd input.vis {
-    display: block;
+    display: inline;
     margin-top: 20px;
+    margin-left: 20px;
     padding: 5px;
     width: 300px;
 }
+
 .container_upd input.vis:focus {
     outline: none;
 }
@@ -63,7 +65,5 @@ a:hover::before {
 
 a:hover::after {
     transform: scale(1);
+
 }
-
-
-

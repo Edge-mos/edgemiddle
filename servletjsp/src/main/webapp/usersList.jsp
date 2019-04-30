@@ -10,8 +10,9 @@
 <%@ page import="ru.job4j.crud.model.User" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.io.IOException" %>
+<%@ page import="ru.job4j.jspdb.logic.ValidateServiceDb" %>
 <%
-    ValidateService vs = (ValidateService) session.getAttribute("validate");
+    ValidateServiceDb vs = (ValidateServiceDb) session.getAttribute("validate");
     String[] messages = (String[]) session.getAttribute("markupMessage");
 %>
 
@@ -44,7 +45,7 @@
                 <td><%=entry.getValue().getName()%></td>
                 <td><%=entry.getValue().getLogin()%></td>
                 <td><%=entry.getValue().getEmail()%></td>
-                <td><%=entry.getValue().getCreateDate()%></td>
+                <td><%=entry.getValue().getCreateDate().substring(0, 19)%></td>
                 <td class="td_form">
                     <form class="form" method="POST" action="<%=request.getContextPath()%>/userdelete">
                         <input class="form_btn delBtn" type="submit" name="operation" value="DELETE"/>
@@ -71,7 +72,7 @@
                 <input class="vis" type="text" name="name" placeholder="Name">
                 <input class="vis" type="text" name="login" placeholder="Login">
                 <input class="vis" type="text" name="email" placeholder="Email">
-                <input class="vis" type="text" name="create" placeholder="Create_date">
+               <!-- <input class="vis" type="text" name="create" placeholder="Create_date"> -->
                 <input class="add_btn" type="submit" value="ADD">
             </form>
 
