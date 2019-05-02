@@ -122,6 +122,6 @@ public enum StoreDb implements Store {
         return new User(rs.getString("name"),
                 rs.getString("login"),
                 rs.getString("email"),
-                rs.getString("create_date"));
+                rs.getString("create_date").substring(0, 19));
     }
 }
