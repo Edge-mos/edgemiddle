@@ -1,6 +1,7 @@
 package ru.job4j.crud.persistent;
 
 import ru.job4j.crud.model.User;
+import ru.job4j.jspdb.interfaces.ReStore;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.function.BiFunction;
  * @version $1.0$. Singleton of MemoryStore.
  * @since 13.02.2019.
  */
-public enum MemoryStore implements Store {
+public enum MemoryStore implements ReStore {
     INSTANCE;
     private Map<Integer, User> cache = new ConcurrentHashMap<>();
     private AtomicInteger sysId = new AtomicInteger(0);

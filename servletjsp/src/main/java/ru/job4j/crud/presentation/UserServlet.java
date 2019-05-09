@@ -3,9 +3,8 @@ package ru.job4j.crud.presentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.crud.logic.ValidateService;
-import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
-import ru.job4j.crud.persistent.Store;
+import ru.job4j.jspdb.interfaces.ReStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 13.02.2019.
  */
 public class UserServlet extends HttpServlet {
-    private Store store = MemoryStore.INSTANCE;
+    private ReStore store = MemoryStore.INSTANCE;
     private ValidateService validate = ValidateService.INSTANCE;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServlet.class);
 

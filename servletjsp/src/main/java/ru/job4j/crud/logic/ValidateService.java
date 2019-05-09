@@ -2,13 +2,11 @@ package ru.job4j.crud.logic;
 
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
-import ru.job4j.crud.persistent.Store;
+import ru.job4j.jspdb.interfaces.ReStore;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * @author Vladimir Yamnikov (Androedge@gmail.com).
@@ -17,7 +15,7 @@ import java.util.stream.Stream;
  */
 public enum ValidateService {
     INSTANCE;
-    private Store store = MemoryStore.INSTANCE;
+    private ReStore store = MemoryStore.INSTANCE;
 
     private final Map<String, Function<List<String>, String>> dispatcher = Map.of(
             "add", this.addOperation(),

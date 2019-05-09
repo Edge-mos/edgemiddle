@@ -1,98 +1,73 @@
 package ru.job4j.jspdb.persistent;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.postgresql.util.PSQLException;
-import ru.job4j.crud.model.User;
-
-import java.sql.SQLException;
+import ru.job4j.jspdb.interfaces.Store;
+import ru.job4j.jspdb.model.User;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class StoreDbTest {
-    private final StoreDb sdb = StoreDb.INSTANCE;
-
-    @Before
-    public void createTable() {
-        this.sdb.initTable();
-    }
+    private final Store<User> sdb = StoreDb.getInstance();
 
     @After
-    public void dropTable() {
-        this.sdb.dropTable();
+    public void dropDb() {
+        this.sdb.drop();
     }
 
     @Test
-    public void whenAddAbsentUserThanTrueAndSizeMoreThanZero() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
+    public void whenAddAbsentUserThanTrue() {
+        User user = new User("Ivan", "Login", "123", "Ivan@Yandex.ru", "ADMIN");
         assertThat(this.sdb.add(user), is(true));
-        assertThat(this.sdb.findAll().size(), is(1));
         assertThat(this.sdb.findById(1), is(user));
     }
 
+    @Test
     public void whenAddUserWithSameLoginOrEmailThanFalse() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        User user1 = new User("Petr", "Log", "Test@gmail.com");
-        User user2 = new User("TestName", "TestLog", "Ivan@gmail.com");
-        this.sdb.add(user);
-        assertThat(this.sdb.add(user1), is(false));
+        User user = new User("Ivan", "Login", "123", "Ivan@Yandex.ru", "ADMIN");
+        User user2 = new User("Petr", "Login", "456", "Ivan@Mail.ru", "USER");
+        assertThat(this.sdb.add(user), is(true));
+        assertThat(this.sdb.add(user2), is(false));
+        assertThat(this.sdb.findAll().size(), is(1));
     }
 
     @Test
     public void whenUpdatePresentUserToUniqueLoginOrUniqueMailThanTrue() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        User user1 = new User("Petr", "Petr", "Petr@gmail.com");
+        User user = new User("Ivan", "Login", "123", "Yandex@ru", "USER");
         this.sdb.add(user);
-        this.sdb.add(user1);
-        assertThat(this.sdb.update(2, new User("Petr2", "Petr2", "Petr@inbox.ru")), is(true));
+        assertThat(this.sdb.update(1, new User(
+                "Petr", "Petr", "456", "job4j@mail.ru", "ADMIN")),
+                is(true));
     }
 
     @Test
     public void whenUpdatePresentUserToNonuniqueLoginOrNonniqueMailThanTrue() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        User user1 = new User("Petr", "Petr", "Petr@gmail.com");
+        User user = new User("Ivan", "Login", "123", "Yandex@ru", "USER");
+        User user1 = new User("Petr", "Petr", "456", "job4j@mail.ru", "ADMIN");
         this.sdb.add(user);
         this.sdb.add(user1);
-        assertThat(this.sdb.update(2, new User("Petr", "Log", "Petr@inbox.ru")), is(false));
-        assertThat(this.sdb.update(2, new User("Petr", "Petr", "Ivan@gmail.com")), is(false));
-    }
-
-    @Test
-    public void whenUpdateCurrentPresentUserForNameAndNotUpdateUniqueValuesThanTrue() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        this.sdb.add(user);
-        assertThat(this.sdb.update(1, new User("Petr", "Log", "Ivan@gmail.com")), is(true));
+        assertThat(this.sdb.update(2,
+                new User("Petr", "Login", "456", "Petr@inbox.ru", "ADMIN")), is(false));
+        assertThat(this.sdb.update(2,
+                new User("Petr", "Petr", "456", "Yandex@ru", "ADMIN")), is(false));
     }
 
     @Test
     public void whenDeletePresentUserThanSizeIsZero() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
+        User user = new User("Ivan", "Login", "123", "Yandex@ru", "USER");
         this.sdb.add(user);
-        assertThat(this.sdb.delete(1), is(this.sdb.findAll().isEmpty()));
+        assertThat(this.sdb.delete(1), is(true));
+        assertThat(this.sdb.findAll().isEmpty(), is(true));
     }
 
     @Test
-    public void whenDeleteAbsentUserThanFalse() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
+    public void whenUserIsPresentThanFindByIdIsTrue() {
+        User user = new User("Ivan", "Login", "123", "Ivan@Yandex.ru", "ADMIN");
+        User user2 = new User("Petr", "Log", "456", "Ivan@Mail.ru", "USER");
         this.sdb.add(user);
-        assertThat(this.sdb.delete(2), is(false));
-    }
-
-    @Test
-    public void whenAddTwoUniqueUsersThanSizeIsTwo() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        User user1 = new User("Petr", "Petr", "Petr@gmail.com");
-        this.sdb.add(user);
-        this.sdb.add(user1);
-        assertThat(this.sdb.findAll().size(), is(2));
-    }
-
-    @Test
-    public void whenFindByIdPresentUserThanTrue() {
-        User user = new User("Ivan", "Log", "Ivan@gmail.com");
-        this.sdb.add(user);
+        this.sdb.add(user2);
         assertThat(this.sdb.findById(1), is(user));
+        assertThat(this.sdb.findById(2), is(user2));
     }
 }

@@ -3,11 +3,10 @@ package ru.job4j.crud.logic;
 import org.junit.Test;
 import ru.job4j.crud.model.User;
 import ru.job4j.crud.persistent.MemoryStore;
-import ru.job4j.crud.persistent.Store;
+import ru.job4j.jspdb.interfaces.ReStore;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,7 +30,7 @@ public class ValidateServiceTest {
 
     @Test
     public void whenDeleteUserFromListThanTrue() {
-        Store store = MemoryStore.INSTANCE;
+        ReStore store = MemoryStore.INSTANCE;
         ValidateService validate = ValidateService.INSTANCE;
         User user = new User("test", "testLogin", "testEmail", "11/12/2018");
         store.add(user);
@@ -51,7 +50,7 @@ public class ValidateServiceTest {
     @Test
     public void whenUpdateCurrentUserByIdTAndSetUniqueLoginAndEmailThanTrue() {
         ValidateService validate = ValidateService.INSTANCE;
-        Store store = MemoryStore.INSTANCE;
+        ReStore store = MemoryStore.INSTANCE;
         User user = new User("test", "testLogin", "testEmail", "11/12/2018");
         store.add(user);
         List<String> params = List.of("update", "1", "test2", "testLogin2", "testEmail2", "12/12/2018");

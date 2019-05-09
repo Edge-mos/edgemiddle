@@ -2,10 +2,7 @@ package ru.job4j.appusers.presentation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.appusers.logic.ValidateService;
 import ru.job4j.crud.model.User;
-import ru.job4j.crud.persistent.Store;
-import ru.job4j.crud.presentation.UserServlet;
 import ru.job4j.jspdb.logic.ValidateServiceDb;
 
 import javax.servlet.RequestDispatcher;

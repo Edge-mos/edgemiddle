@@ -4,10 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.appusers.presentation.Utils;
 import ru.job4j.crud.model.User;
-import ru.job4j.crud.persistent.MemoryStore;
-import ru.job4j.crud.persistent.Store;
+import ru.job4j.jspdb.interfaces.ReStore;
 import ru.job4j.crud.presentation.UserServlet;
-import ru.job4j.jspdb.persistent.StoreDb;
+import ru.job4j.jspdb.persistent.StoreDbErrr;
 
 import java.util.Map;
 import java.util.Optional;
@@ -15,7 +14,7 @@ import java.util.function.Function;
 
 public enum ValidateServiceDb {
     INSTANCE;
-    private Store store = StoreDb.INSTANCE;
+    private ReStore store = StoreDbErrr.INSTANCE;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServlet.class);
     private Map<String, Function<Map<String, String[]>, String[]>> dispatcher = Map.of(
             "ADD", this.addOperation(),
