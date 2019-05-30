@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .container_upd {
     padding-left: 20px;
     width: 600px;
@@ -5,14 +9,6 @@
 
 .container_upd span.caption {
     font-weight: 600;
-}
-
-.container_upd input.vis {
-    display: inline;
-    margin-top: 20px;
-    margin-left: 20px;
-    padding: 5px;
-    width: 300px;
 }
 
 .container_upd input.vis:focus {
@@ -25,6 +21,7 @@
     border: 2px solid green;
     cursor: pointer;
 }
+
 
 .upd_btn {
     width: 80px;
@@ -67,3 +64,49 @@ a:hover::after {
     transform: scale(1);
 
 }
+
+.tab table {
+    width: 80%;
+}
+
+.tab .properties {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+.tab .selector {
+    cursor: pointer;
+
+}
+
+table .selector:focus {
+    outline: none;
+}
+
+table .selector:hover {
+    transition: 0.5s;
+    border-radius: 5px;
+    border: 1px solid green;
+}
+
+.caption {
+    color: blue;
+}
+
+.tab .role {
+    color: red;
+}
+
+.tab .content input {
+    padding: 5px;
+    width: 300px;
+
+}
+
+
+
+
+
+
+

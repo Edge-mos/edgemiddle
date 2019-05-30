@@ -56,7 +56,8 @@ public interface SQLquery {
         return "SELECT ul.id, ul.name, ul.login, ul.password, ul.email, ur.role, ul.create_date\n" +
                 "FROM users_list AS ul\n" +
                 "INNER JOIN user_role AS ur\n" +
-                "ON ul.role = ur.id;";
+                "ON ul.role = ur.id\n" +
+                "ORDER BY ul.id ASC;";
     }
 
     static String findById() {
@@ -66,5 +67,13 @@ public interface SQLquery {
                 "       user_role as ur\n" +
                 "       ON ul.role = ur.id\n" +
                 "WHERE ul.id = ?";
+    }
+
+    static String auth() {
+        return "SELECT ul.id, ul.name, ul.login, ul.password, ul.email, ur.role, ul.create_date\n" +
+                "FROM users_list AS ul\n" +
+                "INNER JOIN user_role AS ur\n" +
+                "ON ul.role = ur.id\n" +
+                "WHERE ul.login = ? AND ul.password = ?;";
     }
 }

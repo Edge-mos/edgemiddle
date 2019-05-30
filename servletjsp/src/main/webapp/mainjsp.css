@@ -3,7 +3,7 @@
 }
 
 .container {
-    width: 70%;
+    width: 80%;
     padding: 15px;
 }
 
@@ -120,8 +120,29 @@
     border-radius: 5px;
     border: 2px solid blue;
     color: blue;
-
 }
+
+.add_user .selector {
+    margin-top: 10px;
+    color: red;
+}
+
+.add_user .selector select {
+    cursor: pointer;
+}
+
+.add_user .selector select:hover {
+    transition: 0.5s;
+    border-radius: 5px;
+    border: 1px solid green;
+}
+
+.add_user .selector select:focus {
+    outline: none;
+}
+
+
+
 
 
 

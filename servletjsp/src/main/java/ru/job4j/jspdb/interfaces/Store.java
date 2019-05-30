@@ -2,6 +2,7 @@ package ru.job4j.jspdb.interfaces;
 import ru.job4j.jspdb.model.User;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface Store<T> {
     boolean add(T user);
@@ -9,6 +10,7 @@ public interface Store<T> {
     boolean delete(int id);
     Map<Integer, T> findAll();
     T findById(int id);
+    int authenticate(String login, String password);
     void init();
     void drop();
 }

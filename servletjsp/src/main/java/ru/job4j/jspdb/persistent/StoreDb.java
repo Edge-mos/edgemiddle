@@ -10,12 +10,14 @@ import ru.job4j.jspdb.interfaces.ConnectionBuilder;
 import ru.job4j.jspdb.interfaces.Store;
 import ru.job4j.jspdb.model.User;
 
-import java.sql.*;
-import java.time.LocalDateTime;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.Optional;
 
 public class StoreDb implements Store<User> {
     private static final Logger LOGGER = LoggerFactory.getLogger(StoreDb.class);
@@ -82,7 +84,7 @@ public class StoreDb implements Store<User> {
 
     @Override
     public Map<Integer, User> findAll() {
-        Map<Integer, User> result = new HashMap<>();
+        Map<Integer, User> result = new LinkedHashMap<>();
         try (Connection connection = this.cb.getConnection();
              ResultSet rs = connection.createStatement().executeQuery(SQLquery.getAllUsers())) {
             while (rs.next()) {
@@ -122,6 +124,24 @@ public class StoreDb implements Store<User> {
             LOGGER.error("FIND BY ID method problem!", e);
         }
         return null;
+    }
+
+    @Override
+    public int authenticate(String login, String password) {
+        try (Connection connection = this.cb.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQLquery.auth(),
+                     ResultSet.TYPE_SCROLL_SENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE)) {
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.first()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("AUTHENTICATE method problem!", e);
+        }
+        return -1;
     }
 
     @Override

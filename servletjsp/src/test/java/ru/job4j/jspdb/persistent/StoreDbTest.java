@@ -5,16 +5,18 @@ import org.junit.Test;
 import ru.job4j.jspdb.interfaces.Store;
 import ru.job4j.jspdb.model.User;
 
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class StoreDbTest {
     private final Store<User> sdb = StoreDb.getInstance();
 
-    @After
-    public void dropDb() {
-        this.sdb.drop();
-    }
+//    @After
+//    public void dropDb() {
+//        this.sdb.drop();
+//    }
 
     @Test
     public void whenAddAbsentUserThanTrue() {
@@ -69,5 +71,10 @@ public class StoreDbTest {
         this.sdb.add(user2);
         assertThat(this.sdb.findById(1), is(user));
         assertThat(this.sdb.findById(2), is(user2));
+    }
+
+    @Test
+    public void test() {
+        System.out.println(this.sdb.authenticate("лог", "пароль"));
     }
 }

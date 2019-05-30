@@ -17,6 +17,8 @@
 </head>
 <body>
 <div class="container">
+    <jsp:useBean id="loggedUser" scope="session" type="ru.job4j.jspdb.model.User"/>
+    <span>Welcome: ${loggedUser.login}. Granted as: ${loggedUser.role}. LogOUT.</span>
     <div class="table_layer">
         <table>
             <caption><h3>Users List</h3></caption>
@@ -24,17 +26,21 @@
                 <th>id</th>
                 <th>Name</th>
                 <th>Login</th>
+                <th>Password</th>
                 <th>Mail</th>
+                <th>Role</th>
                 <th>Create_date</th>
             </tr>
-            <jsp:useBean id="validate" scope="session" type="ru.job4j.jspdb.logic.ValidateServiceDb"/>
+            <jsp:useBean id="validate" scope="session" type="ru.job4j.jspdb.logic.ValidateService"/>
             <c:forEach var="user" items="${validate.allUsers}">
                 <tr>
                     <td><c:out value="${user.key}"/></td>
                     <td><c:out value="${user.value.name}"/></td>
                     <td><c:out value="${user.value.login}"/></td>
+                    <td><c:out value="${user.value.password}"/></td>
                     <td><c:out value="${user.value.email}"/></td>
-                    <td><c:out value="${user.value.createDate}"/></td>
+                    <td><c:out value="${user.value.role}"/></td>
+                    <td><c:out value="${user.value.createDate.format(user.value.formatter)}"/></td>
                     <td class="td_form">
                         <form class="form" method="POST" action="${pageContext.servletContext.contextPath}/userdelete">
                             <input class="form_btn delBtn" type="submit" name="operation" value="DELETE"/>
@@ -59,11 +65,16 @@
                 <input type="text" hidden name="operation" value="ADD"/>
                 <input class="vis" type="text" name="name" placeholder="Name">
                 <input class="vis" type="text" name="login" placeholder="Login">
+                <input class="vis" type="text" name="password" placeholder="Password">
                 <input class="vis" type="text" name="email" placeholder="Email">
-                <!-- <input class="vis" type="text" name="create" placeholder="Create_date"> -->
+                <div class="selector">
+                    Role: <select name="role">
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                    </select>
+                </div>
                 <input class="add_btn" type="submit" value="ADD">
             </form>
-
         </div>
         <div class="message">
             <jsp:useBean id="markupMessage" scope="session" type="java.lang.String[]"/>

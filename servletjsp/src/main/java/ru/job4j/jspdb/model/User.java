@@ -11,8 +11,8 @@ public class User {
     private final String email;
     private final String role;
     private LocalDateTime createDate;
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
-    public static final DateTimeFormatter ISOformatter = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
+
 
     public User(String name, String login, String password, String email, String role) {
         this.name = name;
