@@ -10,7 +10,8 @@ public interface Store<T> {
     boolean delete(int id);
     Map<Integer, T> findAll();
     T findById(int id);
-    int authenticate(String login, String password);
+    int getUserId(String login, String password);
+    Optional<T> getLoggedUser(String login, String password);
     void init();
     void drop();
 }

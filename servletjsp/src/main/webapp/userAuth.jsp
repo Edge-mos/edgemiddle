@@ -22,8 +22,7 @@
 </div>
 <div class="user_auth">
 
-    <form method="POST" action="" >
-        <%--${pageContext.servletContext.contextPath}/userauth--%>
+    <form method="POST" action="${pageContext.servletContext.contextPath}/userauth">
         <input type="text" hidden name="operation" value="AUTH"/>
         <input class="vis" type="text" name="login" placeholder="Login">
         <input class="vis" type="password" name="password" placeholder="Password">

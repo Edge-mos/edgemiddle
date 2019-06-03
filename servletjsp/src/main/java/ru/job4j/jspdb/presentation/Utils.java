@@ -31,22 +31,15 @@ public interface Utils {
     static void doPostProceed(HttpServletRequest req, HttpServletResponse resp, String className) {
         final Logger LOGGER = LoggerFactory.getLogger(className);
         try {
-//            req.setCharacterEncoding("UTF-8");
-//            resp.setContentType("text/html;charset=UTF-8");
-            HttpSession session = req.getSession();
-
+            HttpSession session = req.getSession(false);
             ValidateService vs = (ValidateService) session.getAttribute("validate");
             Map<String, String[]> params = req.getParameterMap();
             //params.forEach((s, strings) -> System.out.println(String.format("%s : %s", s, strings[0])));
             String[] operations = vs.getOperation(params.get("operation")[0]).apply(params);
             req.getSession().setAttribute("markupMessage", operations);
-
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/userslist");
-            dispatcher.forward(req, resp);
+            resp.sendRedirect(req.getContextPath().concat("/userslist"));
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("Problem in " + className, e);
-        } catch (ServletException er) {
-            LOGGER.error("Problem in " + className, er);
         } catch (IOException err) {
             LOGGER.error("Problem in " + className, err);
         }

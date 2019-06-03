@@ -73,8 +73,4 @@ public class StoreDbTest {
         assertThat(this.sdb.findById(2), is(user2));
     }
 
-    @Test
-    public void test() {
-        System.out.println(this.sdb.authenticate("лог", "пароль"));
-    }
 }

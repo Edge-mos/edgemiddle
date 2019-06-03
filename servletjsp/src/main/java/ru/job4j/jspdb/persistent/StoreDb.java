@@ -127,7 +127,7 @@ public class StoreDb implements Store<User> {
     }
 
     @Override
-    public int authenticate(String login, String password) {
+    public int getUserId(String login, String password) {
         try (Connection connection = this.cb.getConnection();
              PreparedStatement ps = connection.prepareStatement(SQLquery.auth(),
                      ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -142,6 +142,32 @@ public class StoreDb implements Store<User> {
             LOGGER.error("AUTHENTICATE method problem!", e);
         }
         return -1;
+    }
+
+    @Override
+    public Optional<User> getLoggedUser(String login, String password) {
+        try (Connection connection = this.cb.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQLquery.auth(),
+                     ResultSet.TYPE_SCROLL_SENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE)) {
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.first()) {
+                return Optional.of(
+                        new User(
+                        rs.getString("name"),
+                        rs.getString("login"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("role"),
+                        rs.getTimestamp("create_date").toLocalDateTime()
+                ));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("GET LOGGED USER method problem!", e);
+        }
+       return Optional.empty();
     }
 
     @Override

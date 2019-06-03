@@ -71,15 +71,13 @@ public class ValidateService {
         return this.store.findAll();
     }
 
-//    public Optional<User> findCurrentUser(String login, String password) {
-//        return this.getAllUsers().values()
-//                .stream()
-//                .filter(user -> user.getLogin().equals(login) && user.getPassword().equals(password))
-//                .findFirst();
-//    }
 
-    public int findLoggedUser(String login, String password) {
-        return this.store.authenticate(login, password);
+    public Optional<User> findLoggedUser(String login, String password) {
+        return this.store.getLoggedUser(login, password);
+    }
+
+    public int getUserId(String login, String password) {
+        return this.store.getUserId(login, password);
     }
 
     private Supplier<User> buildUser(final Map<String, String[]> params) {
